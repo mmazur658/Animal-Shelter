@@ -1,0 +1,78 @@
+<div class="modal-body" id="">
+
+		<form id="animal-form" action="/add-or-update" method="post" th:data-add-new="${addNew}">		
+		
+			<div class="row text-muted">
+				<div class="col-md-3">
+					<p class="font-weight-bold">Id:</p>
+				</div>
+				<div class="col-md-9" th:if="${animal.id != null}">
+				    <input id="animalIdInput" type="hidden" name="animalId" class="form-control" th:value="${animal.id}" required>
+					<p id="animamIdHolder" th:text="${animal.id}" th:data-animal-id="${animal.id}" class="h5"></p>
+				</div>				
+			</div>
+			<hr class="my-1">
+			
+			<div class="row text-muted">
+				<div class="col-md-3">
+					<p class="font-weight-bold">Nazwa: </p>
+				</div>
+				<div class="col-md-9 my-auto">
+					<input type="text" class="form-control" id="animalNameInput" placeholder="Nazwa" name="animalName" th:value="${animal.name}" required>
+				</div>				
+			</div>
+			<hr class="my-1">
+			
+			<div class="row text-muted">
+				<div class="col-md-3">
+					<p class="font-weight-bold">Kategoria: </p>
+				</div>
+				<div class="col-md-9">
+					<select id="categorySel" name="category" class="form-control">
+					    <option th:each="cat : ${categoriesForm}" 
+					    		th:value="${cat}" 
+					    		th:text="${cat}" 
+					    		th:selected="${cat} == ${animal.category} ? true : false" >
+					    </option>
+				    </select>
+				</div>				
+			</div>
+			<hr class="my-1">
+			
+			<div class="row text-muted">
+				<div class="col-md-3">
+					<p class="font-weight-bold">Wiek: </p>
+				</div>
+				<div class="col-md-9">
+					<input id="animalAgeInput" type="number" step="1" class="form-control" placeholder="Wiek" th:value="${animal.age}" required>
+				</div>				
+			</div>
+			<hr class="my-1">
+			
+			<div class="row text-muted">
+				<div class="col-md-12">
+					<p class="font-weight-bold">Opis: </p>
+				</div>
+			</div>
+			
+			<div class="row text-muted">
+				<div class="col-md-12">
+					<textarea required id="animalDescTextArea" th:value="${animal.description}" style="overflow-y: scroll; height: 150px; width: 100%;" th:text="${animal.description}" name="description"></textarea>
+				</div>
+			</div>	
+	
+		</form>	
+	</div>	
+
+	<div class="modal-body">
+		<div class="row my-1">
+			<div class="col-md-6">
+				<button id="confirm" form="animal-form" type="submit" class="btn btn-block btn-success my-1"><i class="fas fa-check"></i></button>
+			</div>
+			<div class="col-md-6">
+				<button id="cancelBtn" class="btn btn-block btn-danger my-1"><i class="fas fa-times"></i></button>
+			</div>
+		</div>	
+	</div>
+	<script type="text/javascript" th:src="@{/js/animal-form.js}"></script>
+	

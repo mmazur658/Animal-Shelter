@@ -1,0 +1,15 @@
+
+<table class="table table-striped text-muted">
+	<thead>
+		<tr>
+			<th style="width:10%;" class="text-center" scope="col">#</th>
+			<th style="width:80%;" scope="col" class="h4">Kategorie</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="category,iterationStatus: ${categories}">
+			<th class="text-center" scope="row" th:text="${iterationStatus.count}"></th>
+			<td><Span th:text="${category}" class="h5"></Span></td>
+		</tr>
+	</tbody>
+</table>

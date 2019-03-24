@@ -1,0 +1,166 @@
+﻿<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+   	<link th:replace="parts/header"></link>
+    <title>Animal Shelter - Strona główna</title>    
+</head>
+<body>
+<script>document.body.className += ' fade-out';</script>
+    
+<!-- NAV -->
+<nav th:replace="parts/navbar"></nav>
+<!-- /NAV -->
+<!-- CAROUSEL -->
+<div th:replace="parts/carousel"></div> 
+<!-- /CAROUSEL -->
+<!-- ANIMALS -->
+<div id="animals" class="container py-5" style="min-height: 300px">
+	<form action="/search" method="get">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<select name="categoryMain" class="form-control" id="categorySelect">
+					    <option th:each="category : ${categories}" 
+					    		th:value="${category}" 
+					    		th:text="${category}" 
+					    		th:selected="${category} == ${categoryModel} ? true : false" >
+					    </option>
+				    </select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<input name="name" type="text" class="form-control" id="animalName" placeholder="Nazwa" th:value="${nameModel}">
+			</div>
+			<div class="col-md-4 my-1">
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="sortingType" id="inlineRadio1" value="asc" checked>
+					<label class="form-check-label" for="inlineRadio1">Alfabetycznie</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="sortingType" id="inlineRadio2" value="desc"
+					 th:checked="${sortingTypeModel} == 'desc' ? true : false ">
+					<label class="form-check-label" for="inlineRadio2">Odwrotnie alfabetycznie</label>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<button type="submit" class="btn btn-block btn-secondary"><i class="fas fa-search"></i></button>
+			</div>
+		</div>	
+	</form>		
+
+	<div class="card my-3" th:each="animal : ${animals}">
+		<h5 class="card-header bg-secondary text-white" th:text="|Kategoria: ${animal.category}|"></h5>
+		<div class="card-body text-muted">
+			  <div class="row">
+			  	<div class="col-md-3">
+			  		<img class="d-block w-100" th:src="@{/img/animal.jpg}">
+			  	</div>
+			  	<div class="col-md-9">
+			  		<h5 class="card-title" th:text="${animal.name}"></h5>
+			  		<div th:if="${#strings.length(animal.description) <= 100}">		  		
+			  			<p class="card-text" th:text="${animal.description}"></p>
+			  		</div>
+			  		<div th:if="${#strings.length(animal.description) > 100}">
+			  			<p class="card-text" th:text="${#strings.substring(animal.description,0,99)}"></p> 
+			  		</div>				  		
+			    	<button class="btn btn-secondary start-modal text-white" th:attr="data-animal-id=${animal.id}">Szczegóły</button>
+			    	<button class="btn btn-secondary start-comment-modal text-white" th:attr="data-animal-id=${animal.id}">Dodaj Komentarz</button>
+			 	</div>  		
+			</div>
+			<hr>
+			<div th:if="${#lists.size(animal.comments) == 0} ">
+				<span> Brak komentarzy</span>		
+			</div>
+			
+			<div th:if="${#lists.size(animal.comments) > 0}">
+				<div th:each="comment : ${animal.comments}">
+					<div class="row">
+						<div class="col-md-3">
+							<span th:text="${comment.author}"></span>
+						</div>
+						<div class="col-md-9">
+							<span th:text="${comment.text}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL - ANIMAL DETAILS-->
+<div class="modal fade" id="animalDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="animalModalTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="modal-cont-details">     
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL - ANIMAL DETAILS-->
+
+<!-- MODAL - ANIMAL FORM-->
+<div class="modal fade" id="animalModalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="animalModalFormTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="modal-cont-form">     
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL - ANIMAL FORM-->
+
+<!-- MODAL - Comment -->
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="commentModalTitle">Dodawanie nowego komentarza</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">    
+     
+      	<form id="add-comment-form" action="/addComment" method="post">   
+      		<input class="" type="hidden" value="" id="animalIdComment">
+			<input class="form-control my-1" type="text" name="commentAuthor" id="commentAuthorInput" placeholder="Author">
+			<input class="form-control my-1" type="text" name="commentText" id="commentTextInput" placeholder="Komentarz">
+      	</form>      	
+      </div> 
+      <div class="modal-body">
+		<div class="row">
+			<div class="col-md-6">
+					<button id="addComment" form="add-comment-form" type="submit" class="btn btn-block btn-success my-1"><i class="fas fa-check"></i></button>
+				</div>
+				<div class="col-md-6">
+					<button id="cancelComment" class="btn btn-block btn-danger my-1"><i class="fas fa-times"></i></button>
+				</div>
+			</div>			
+	  	</div>	 
+    </div>
+  </div>
+</div>
+<!-- MODAL - Comment -->
+ 
+<!-- FOOTER -->  
+ 	<div th:replace="parts/footer"></div>
+<!-- /FOOTER -->
+   <script type="text/javascript" th:src="@{/js/index.js}"></script>  
+</body>
+</html>

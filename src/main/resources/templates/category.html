@@ -1,0 +1,42 @@
+﻿<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+   	<link th:replace="parts/header"></link>
+    <title>Animal Shelter - Kategorie</title>    
+</head>
+<body>
+<script>document.body.className += ' fade-out';</script>
+    
+<!-- NAV -->
+<nav th:replace="parts/navsubbar"></nav>
+<!-- /NAV -->     
+
+<!-- CATEGORY LIST -->
+<div class="container mt-5 pt-3 text-muted" style="min-height: 600px">
+
+	<p class="h4"> Dodawanie nowej kategorii</p>
+	<p id="messageHolder"></p>
+	<div class="row my-2">		
+		<div class="col-md-8">
+			<input type="text" class="form-control mt-2" id="categoryInput" placeholder="Nazwa" require >
+		</div>
+		<div class="col-md-4">
+			<button id="addCategory" class="btn btn-block btn-secondary mt-2">Dodaj</button>
+		</div>
+	</div>	  
+
+	<div id="tablePlaceholder" class="my-2">	
+	</div>
+
+</div>
+<!-- /CATEGORY LIST -->
+
+<!-- FOOTER -->  
+ 	<div th:replace="parts/footer"></div>
+<!-- /FOOTER -->
+	
+ <script type="text/javascript" th:src="@{/js/category.js}"></script>
+
+</body>
+</html>

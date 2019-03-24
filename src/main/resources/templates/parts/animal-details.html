@@ -1,0 +1,68 @@
+<div class="modal-body" id="">
+		
+			<div class="row text-muted">
+				<div class="col-md-3">
+					<p class="font-weight-bold">Id:</p>
+				</div>
+				<div class="col-md-9">
+					<p id="animamIdHolder" th:data-animal-id="${animal.id}" class="h5" th:text="${animal.id}"></p>
+				</div>				
+			</div>
+			<hr class="my-1">
+			
+			<div class="row text-muted">
+				<div class="col-md-3">
+					<p class="font-weight-bold">Nazwa: </p>
+				</div>
+				<div class="col-md-9 my-auto">
+					<p class="h5" th:text="${animal.name}"></p>
+				</div>				
+			</div>
+			<hr class="my-1">
+			
+			<div class="row text-muted">
+				<div class="col-md-3">
+					<p class="font-weight-bold">Kategoria: </p>
+				</div>
+				<div class="col-md-9">
+					<p class="h5" th:text="${animal.category}"></p>
+				</div>				
+			</div>
+			<hr class="my-1">
+			
+			<div class="row text-muted">
+				<div class="col-md-3">
+					<p class="font-weight-bold">Wiek: </p>
+				</div>
+				<div class="col-md-9">
+					<p class="h5" th:text="${animal.age}"></p>
+				</div>				
+			</div>
+			<hr class="my-1">
+			
+			<div class="row text-muted">
+				<div class="col-md-12">
+					<p class="font-weight-bold">Opis: </p>
+				</div>
+			</div>
+			
+			<div class="row text-muted">
+				<div class="col-md-12">
+					<p class="text-justify" th:text="${animal.description}" style="overflow-y: scroll; height: 150px; width: 100%; line-height: 20px;"> </p>
+				</div>
+			</div>	
+	
+		</div>
+
+	<div class="modal-body">
+		<div class="row my-1">
+			<div class="col-md-6">
+				<button id="edit-animal-button" type="button" class="btn btn-block btn-secondary my-1">Edytuj</button>
+			</div>
+			<div class="col-md-6">
+				<button type="button" class="btn btn-block btn-secondary my-1" data-dismiss="modal">Zamknij</button>
+			</div>
+		</div>	
+	</div>
+
+	<script type="text/javascript" th:src="@{/js/animal-details.js}"></script>
